@@ -111,9 +111,9 @@ decode(Bin, Msg = #zeta_msg{zstates = States, zevents = Events}) ->
     try protobuffs:read_field_num_and_wire_type(Bin) of
         {{Slot, _}, _} -> 
 	    try protobuffs:decode(Bin, msg_t(Slot)) of
-		{{?MSG_OK, 1}, Rest} ->
+		{{?MSG_OK, true}, Rest} ->
 		    decode(Rest, Msg#zeta_msg{ok = true});
-		{{?MSG_OK, 0}, Rest} ->
+		{{?MSG_OK, false}, Rest} ->
 		    decode(Rest, Msg#zeta_msg{ok = false});
 		{{?MSG_ERROR, Value}, Rest} ->
 		    decode(Rest, Msg#zeta_msg{error = Value});
